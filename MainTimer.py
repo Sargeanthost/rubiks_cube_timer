@@ -1,14 +1,12 @@
-# import time
 from datetime import *
 import sys
 from pyTwistyScrambler import scrambler333 as pyt
 from PyQt5 import QtWidgets, QtGui, QtCore
-# from PyQt5.QtWidgets import  QApplication, QMainWindow, QMenu, QAction, QActionGroup
-# from PyQt5.QtGui import QFont, QKeyEvent
-# from PyQt5.QtCore import QRect, Qt, QEvent
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+#TODO Make background color changer
+#TODO make timer show on timer label
 
 #prevent button from clicking due to keyboard input
 #https://stackoverflow.com/questions/63540492/how-to-stop-spacebar-from-triggering-a-focused-qpushbutton-in-pyqt5/63540920?noredirect=1#comment112359195_63540920
@@ -46,7 +44,6 @@ class App(QMainWindow):
 
         self.isCounting = False
         self.timeNow = datetime.now()
-
         
         self.group = QActionGroup(self)
         self.menu = QMenu("Background Colors", self)
@@ -96,18 +93,13 @@ class App(QMainWindow):
         self.menuBar().addMenu(self.menu)
         self.show()
     
-    #timer this doesnt work 
     def process_time(self):
         self.isCounting = not self.isCounting
         if self.isCounting == True:
             self.timeNow = datetime.now()
         else:
             elapsedTime = str(datetime.now() - self.timeNow)
-            print('Elapsed time is: ', elapsedTime)
-
-    
-    # print(self.isBackgroundDefault.isChecked())
-    
+            print('Elapsed time is: ', elapsedTime)  
     
 def main():
     app = QApplication(sys.argv)
