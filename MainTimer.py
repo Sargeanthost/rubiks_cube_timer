@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import  QApplication, QMainWindow, QMenu, QAction, QActionG
 from PyQt5.QtGui import QFont, QKeyEvent
 from PyQt5.QtCore import QRect, Qt
 
-
+# class MyQPushButton.keyPressEvent(e: QKeyEvent )
 
 class App(QMainWindow):
 
