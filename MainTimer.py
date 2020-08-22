@@ -85,7 +85,7 @@ class App(QMainWindow):
         listener = Listener(scrambleButton)
 
         #shortcuts
-        spaceKey = QShortcut(Qt.Key_Space, self)
+        spaceKey = QShortcut(Qt.Key_Space, self, autoRepeat=False)
         spaceKey.activated.connect(self.process_time)
         #-----------------------------------------------#
         self.menuBar().addMenu(self.menu)
