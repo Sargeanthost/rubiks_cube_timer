@@ -2,11 +2,29 @@ import time
 import sys
 from pyTwistyScrambler import scrambler333 as pyt
 from PyQt5 import QtWidgets, QtGui, QtCore
-from PyQt5.QtWidgets import  QApplication, QMainWindow, QMenu, QAction, QActionGroup
-from PyQt5.QtGui import QFont, QKeyEvent
-from PyQt5.QtCore import QRect, Qt
+# from PyQt5.QtWidgets import  QApplication, QMainWindow, QMenu, QAction, QActionGroup
+# from PyQt5.QtGui import QFont, QKeyEvent
+# from PyQt5.QtCore import QRect, Qt, QEvent
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
 
-# class MyQPushButton.keyPressEvent(e: QKeyEvent )
+#prevent button from clicking due to keyboard input
+#https://stackoverflow.com/questions/63540492/how-to-stop-spacebar-from-triggering-a-focused-qpushbutton-in-pyqt5/63540920?noredirect=1#comment112359195_63540920
+class Listener(QtCore.QObject):
+    def __init__(self, button):
+        super().__init__(button)
+        self._button = button
+        self.button.installEventFilter(self)
+
+    @property
+    def button(self):
+        return self._button
+
+    def eventFilter(self, obj, event):
+        if obj is self.button and event.type() == QtCore.QEvent.KeyPress:
+            return True
+        return super().eventFilter(obj, event)
 
 class App(QMainWindow):
 
@@ -23,7 +41,7 @@ class App(QMainWindow):
         #TODO make this a time object with 0 secs as value
         self.timerStart = time.time()
 
-        self.setGeometry(0,0, self.WIN_WIDTH, self.WIN_HEIGHT)
+        self.setGeometry(self.SCREEN_WIDTH/2-self.WIN_WIDTH/2,self.SCREEN_HEIGHT/2-self.WIN_HEIGHT/2, self.WIN_WIDTH, self.WIN_HEIGHT)
         self.setWindowTitle('Timer')
         self.group = QActionGroup(self)
         self.menu = QMenu("Background Colors", self)
@@ -64,13 +82,15 @@ class App(QMainWindow):
         scrambleButtonGeometry = QRect(self.WIN_WIDTH/2-65, 80, 130,35)
         scrambleButton.setGeometry(scrambleButtonGeometry)
         scrambleButton.clicked.connect(lambda: scrambleLabel.setText(pyt.get_WCA_scramble()))
+        listener = Listener(scrambleButton)
         #-----------------------------------------------#
         self.menuBar().addMenu(self.menu)
         self.show()
     
     #timer this doesnt work 
     def keyReleaseEvent(self, e):
-        if e.key() == Qt.Key_T:
+        # if e.key() == Qt.Key_Space:
+        if (e.key() == Qt.Key_T):
             self.isCounting = not self.isCounting
             if self.isCounting == True:
                 self.timerStart = time.time()
