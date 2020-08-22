@@ -1,4 +1,5 @@
-import time
+# import time
+from datetime import *
 import sys
 from pyTwistyScrambler import scrambler333 as pyt
 from PyQt5 import QtWidgets, QtGui, QtCore
@@ -30,19 +31,23 @@ class App(QMainWindow):
 
     def __init__(self):
         super().__init__()
+        
+        left = 1920/2-(900/2)
+        top= 1080/2 -(900/2)
+        width = 900
+        height = 900
+
+        self.setGeometry(left,top, width, height)
+        self.setWindowTitle('Timer')
+
         self.initUI()
 
     def initUI(self):
-        self.SCREEN_WIDTH = 1920
-        self.SCREEN_HEIGHT = 1080
-        self.WIN_HEIGHT = self.SCREEN_HEIGHT*.8
-        self.WIN_WIDTH = self.SCREEN_WIDTH/2
-        self.isCounting = False
-        #TODO make this a time object with 0 secs as value
-        self.timerStart = time.time()
 
-        self.setGeometry(self.SCREEN_WIDTH/2-self.WIN_WIDTH/2,self.SCREEN_HEIGHT/2-self.WIN_HEIGHT/2, self.WIN_WIDTH, self.WIN_HEIGHT)
-        self.setWindowTitle('Timer')
+        self.isCounting = False
+        self.timeNow = datetime.now()
+
+        
         self.group = QActionGroup(self)
         self.menu = QMenu("Background Colors", self)
         self.isBackgroundBlue = self.group.addAction(QAction('Blue', self.menu, checkable=True))
@@ -58,7 +63,7 @@ class App(QMainWindow):
         #timerlabel
         self.timerLabel = QLabel(self)
         timerFont = QFont('DS-Digital', 30)
-        timerGeometry = QRect(self.WIN_WIDTH/2 - 130,self.WIN_HEIGHT/2 - 35, 260, 70)
+        timerGeometry = QRect(320,400, 260, 70)
         self.timerLabel.setGeometry(timerGeometry)
         self.timerLabel.setAlignment(Qt.AlignCenter)
         # timerLabel.setStyleSheet("border: 1px solid black;")
@@ -68,7 +73,7 @@ class App(QMainWindow):
         #scramble label
         scrambleLabel = QLabel(self)
         scrambleFont = QFont('Open Sans', 20)
-        scrambleGeometry = QRect(0,0,self.WIN_WIDTH, 90)
+        scrambleGeometry = QRect(0,0,900, 90)
         scrambleLabel.setGeometry(scrambleGeometry)
         scrambleLabel.setAlignment(Qt.AlignCenter )
         scrambleLabel.setFont(scrambleFont)
@@ -79,7 +84,7 @@ class App(QMainWindow):
         scrambleButtonFont = QFont('Open Sans', 10)
         scrambleButton.setFont(scrambleButtonFont)
         scrambleButton.setText('New Scramble')
-        scrambleButtonGeometry = QRect(self.WIN_WIDTH/2-65, 80, 130,35)
+        scrambleButtonGeometry = QRect(385, 80, 130,35)
         scrambleButton.setGeometry(scrambleButtonGeometry)
         scrambleButton.clicked.connect(lambda: scrambleLabel.setText(pyt.get_WCA_scramble()))
         listener = Listener(scrambleButton)
@@ -95,9 +100,10 @@ class App(QMainWindow):
     def process_time(self):
         self.isCounting = not self.isCounting
         if self.isCounting == True:
-            self.timerStart = time.time()
+            self.timeNow = datetime.now()
         else:
-            print(time.time() - self.timerStart)
+            elapsedTime = str(datetime.now() - self.timeNow)
+            print('Elapsed time is: ', elapsedTime)
 
     
     # print(self.isBackgroundDefault.isChecked())
