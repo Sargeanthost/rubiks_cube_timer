@@ -20,6 +20,8 @@ class App(QMainWindow):
         self.WIN_HEIGHT = self.SCREEN_HEIGHT*.8
         self.WIN_WIDTH = self.SCREEN_WIDTH/2
         self.isCounting = False
+        #TODO make this a time object with 0 secs as value
+        self.timerStart = time.time()
 
         self.setGeometry(0,0, self.WIN_WIDTH, self.WIN_HEIGHT)
         self.setWindowTitle('Timer')
@@ -69,13 +71,12 @@ class App(QMainWindow):
     #timer this doesnt work 
     def keyReleaseEvent(self, e):
         if e.key() == Qt.Key_T:
-            global  timerStart
             self.isCounting = not self.isCounting
             if self.isCounting == True:
-                timerStart = time.time()
+                self.timerStart = time.time()
             else:
                 #return elapsed time
-                print(time.time() - timerStart)
+                print(time.time() - self.timerStart)
 
     
     # print(self.isBackgroundDefault.isChecked())
