@@ -63,12 +63,16 @@ class App(QMainWindow):
         self.menuBar().addMenu(self.menu)
         self.show()
     
-    def keyPressEvent(self, e):
+    #timer this doesnt work 
+    def keyPressEvent(self, e, isCounting= False):
         if e.key() == Qt.Key_0:
-            timeis = time.struct_time()  
-            while count< 1000:
-                self.timerLabel.setText(timeis)
-                count += 1000
+            print('entered')
+            isCounting = not isCounting
+            if isCounting == True:
+                timerStart = time.time()
+            else:
+                #return elapsed time
+                print(time.time() - timerStart)
 
     
     # print(self.isBackgroundDefault.isChecked())
