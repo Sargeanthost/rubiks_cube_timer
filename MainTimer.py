@@ -56,8 +56,8 @@ class App(QMainWindow):
         self.menu.addAction(self.isBackgroundDefault)
 
         #timerlabel
-        self.timerLabel = QtWidgets.QLabel(self)
-        timerFont = QtGui.QFont('DS-Digital', 30)
+        self.timerLabel = QLabel(self)
+        timerFont = QFont('DS-Digital', 30)
         timerGeometry = QRect(self.WIN_WIDTH/2 - 130,self.WIN_HEIGHT/2 - 35, 260, 70)
         self.timerLabel.setGeometry(timerGeometry)
         self.timerLabel.setAlignment(Qt.AlignCenter)
@@ -66,8 +66,8 @@ class App(QMainWindow):
         self.timerLabel.setText('00:00')
         
         #scramble label
-        scrambleLabel = QtWidgets.QLabel(self)
-        scrambleFont = QtGui.QFont('Open Sans', 20)
+        scrambleLabel = QLabel(self)
+        scrambleFont = QFont('Open Sans', 20)
         scrambleGeometry = QRect(0,0,self.WIN_WIDTH, 90)
         scrambleLabel.setGeometry(scrambleGeometry)
         scrambleLabel.setAlignment(Qt.AlignCenter )
@@ -75,7 +75,7 @@ class App(QMainWindow):
         scrambleLabel.setText(pyt.get_WCA_scramble())
 
         #scramble button
-        scrambleButton = QtWidgets.QPushButton(self)
+        scrambleButton = QPushButton(self)
         scrambleButtonFont = QFont('Open Sans', 10)
         scrambleButton.setFont(scrambleButtonFont)
         scrambleButton.setText('New Scramble')
@@ -83,20 +83,21 @@ class App(QMainWindow):
         scrambleButton.setGeometry(scrambleButtonGeometry)
         scrambleButton.clicked.connect(lambda: scrambleLabel.setText(pyt.get_WCA_scramble()))
         listener = Listener(scrambleButton)
+
+        #shortcuts
+        spaceKey = QShortcut(Qt.Key_Space, self)
+        spaceKey.activated.connect(self.process_time)
         #-----------------------------------------------#
         self.menuBar().addMenu(self.menu)
         self.show()
     
     #timer this doesnt work 
-    def keyReleaseEvent(self, e):
-        # if e.key() == Qt.Key_Space:
-        if (e.key() == Qt.Key_T):
-            self.isCounting = not self.isCounting
-            if self.isCounting == True:
-                self.timerStart = time.time()
-            else:
-                #return elapsed time
-                print(time.time() - self.timerStart)
+    def process_time(self):
+        self.isCounting = not self.isCounting
+        if self.isCounting == True:
+            self.timerStart = time.time()
+        else:
+            print(time.time() - self.timerStart)
 
     
     # print(self.isBackgroundDefault.isChecked())
