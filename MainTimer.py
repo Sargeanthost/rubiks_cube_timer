@@ -37,11 +37,22 @@ class App(QMainWindow):
 
         self.setGeometry(left,top, width, height)
         self.setWindowTitle('Timer')
+        
+        self.setStyleSheet("""
+                    App {
+                        background-color: rgb(240,240,240)
+                    }
+                    QPushButton {
+                        background-color: rgb(240,240,240);
+                        border-style: solid;
+                        border-width: 1px;
+                        border-color: black;
+                    }
+                """)
 
         self.initUI()
 
     def initUI(self):
-
         self.isCounting = False
         self.timeNow = datetime.now()
         
@@ -108,28 +119,54 @@ class App(QMainWindow):
         for action in self.menu.actions():
             if action.isChecked() and action.text() == 'Blue' :
                 self.setStyleSheet("""
-                    QWidget {
+                    App {
                         background-color: rgb(10, 10, 255);
                         }
+                    QPushButton {
+                        background-color: rgb(10, 10, 255);
+                        border-style: solid;
+                        border-width: 1px;
+                        border-color: black;
+                    }
                 """)
             elif action.isChecked() and action.text() == 'Teal':
                 self.setStyleSheet("""
-                    QWidget {
+                    App {
                         background-color: rgb(0,140,140);
                     }
+                    QPushButton {
+                        background-color: rgb(0,140,140);
+                        border-style: solid;
+                        border-width: 1px;
+                        border-color: black;
+                    }    
                 """)
             elif action.isChecked() and action.text() == 'Grey':
                 self.setStyleSheet("""
-                    QWidget {
-                        background-color: rgb(50,50,50)
+                    App {
+                        background-color: rgb(50,50,50);
+                    }
+                    QPushButton {
+                        background-color: rgb(50,50,50);
+                        border-style: solid;
+                        border-width: 1px;
+                        border-color: black;
                     }
                 """)
             elif action.isChecked() and action.text() == 'Off White':
                 self.setStyleSheet("""
-                    QWidget {
+                    App {
                         background-color: rgb(240,240,240)
                     }
-                """)    
+                    QPushButton {
+                        background-color: rgb(240,240,240);
+                        border-style: solid;
+                        border-width: 1px;
+                        border-color: black;
+                    }
+                """)
+    
+
             
     
 def main():
