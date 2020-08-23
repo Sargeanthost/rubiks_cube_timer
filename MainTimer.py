@@ -50,7 +50,7 @@ class App(QMainWindow):
         self.isBackgroundBlue = self.group.addAction(QAction('Blue', self.menu, checkable=True))
         self.isBackgroundTeal = self.group.addAction(QAction('Teal', self.menu, checkable=True))
         self.isBackgroundGrey = self.group.addAction(QAction('Grey', self.menu, checkable=True))
-        self.isBackgroundDefault = self.group.addAction(QAction('Default', self.menu, checkable=True))
+        self.isBackgroundDefault = self.group.addAction(QAction('Off White', self.menu, checkable=True))
         self.isBackgroundDefault.setChecked(True)
         self.menu.addAction(self.isBackgroundBlue)
         self.menu.addAction(self.isBackgroundTeal)
@@ -86,20 +86,51 @@ class App(QMainWindow):
         scrambleButton.clicked.connect(lambda: scrambleLabel.setText(pyt.get_WCA_scramble()))
         listener = Listener(scrambleButton)
 
-        #shortcuts
+        #shortcuts and events
         spaceKey = QShortcut(Qt.Key_Space, self, autoRepeat=False)
-        spaceKey.activated.connect(self.process_time)
+        spaceKey.activated.connect(self.processTime)
         #-----------------------------------------------#
+        self.menu.triggered.connect(self.backgroundColor)
         self.menuBar().addMenu(self.menu)
         self.show()
-    
-    def process_time(self):
+
+    #timer function
+    def processTime(self):
         self.isCounting = not self.isCounting
         if self.isCounting == True:
             self.timeNow = datetime.now()
         else:
             elapsedTime = str(datetime.now() - self.timeNow)
-            print('Elapsed time is: ', elapsedTime)  
+            print('Elapsed time is: ', elapsedTime) 
+    
+    #background setting function
+    def backgroundColor(self): 
+        for action in self.menu.actions():
+            if action.isChecked() and action.text() == 'Blue' :
+                self.setStyleSheet("""
+                    QWidget {
+                        background-color: rgb(10, 10, 255);
+                        }
+                """)
+            elif action.isChecked() and action.text() == 'Teal':
+                self.setStyleSheet("""
+                    QWidget {
+                        background-color: rgb(0,140,140);
+                    }
+                """)
+            elif action.isChecked() and action.text() == 'Grey':
+                self.setStyleSheet("""
+                    QWidget {
+                        background-color: rgb(50,50,50)
+                    }
+                """)
+            elif action.isChecked() and action.text() == 'Off White':
+                self.setStyleSheet("""
+                    QWidget {
+                        background-color: rgb(240,240,240)
+                    }
+                """)    
+            
     
 def main():
     app = QApplication(sys.argv)
