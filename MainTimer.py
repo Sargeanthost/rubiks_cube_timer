@@ -1,4 +1,5 @@
 from datetime import *
+from math import floor
 import sys
 from pyTwistyScrambler import scrambler333 as pyt
 from PyQt5 import QtWidgets, QtGui, QtCore
@@ -111,8 +112,16 @@ class App(QMainWindow):
         if self.isCounting == True:
             self.timeNow = datetime.now()
         else:
-            mils = self.timeNow.strftime('%f')
-            print(self.timeNow.strftime('%M:%S:{mils}'.format(mils = mils[:2])))
+            self.elapsedTime = datetime.now() - self.timeNow
+
+            totalSeconds = float('{:.2f}'.format(self.elapsedTime.total_seconds()))
+
+            minutes = str(floor(totalSeconds / 60))
+            seconds = str(totalSeconds)
+            mils = '{:.2f}'.format(totalSeconds % 1)
+
+            time = [minutes,seconds[:-3],mils[2:]]
+            print('Time elapsed is:', ':'.join(time))
 
     #background color setter
     def backgroundColor(self): 
