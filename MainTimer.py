@@ -37,7 +37,7 @@ class App(QMainWindow):
 
         self.setGeometry(left,top, width, height)
         self.setWindowTitle('Timer')
-        
+
         self.setStyleSheet("""
                     App {
                         background-color: rgb(240,240,240)
@@ -105,16 +105,16 @@ class App(QMainWindow):
         self.menuBar().addMenu(self.menu)
         self.show()
 
-    #timer function
+    #timer --only for creating time object -- will merge into one later
     def processTime(self):
         self.isCounting = not self.isCounting
         if self.isCounting == True:
             self.timeNow = datetime.now()
         else:
-            elapsedTime = str(datetime.now() - self.timeNow)
-            print('Elapsed time is: ', elapsedTime) 
-    
-    #background setting function
+            mils = self.timeNow.strftime('%f')
+            print(self.timeNow.strftime('%M:%S:{mils}'.format(mils = mils[:2])))
+
+    #background color setter
     def backgroundColor(self): 
         for action in self.menu.actions():
             if action.isChecked() and action.text() == 'Blue' :
